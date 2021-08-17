@@ -34,10 +34,13 @@ class Ws :
     async def start(self) :
         """starts a loop and listens to the events"""
 
+        #TODO manage stuff so that hearbeat is only called on successfull authentication 
 
         await self.authenticate()
+        asyncio.create_task(self.heartbeat())
+
         while True :
-            asyncio.create_task(self.heartbeat()) 
+            
             event = await self.connection.receive()
             if event.type ==  aiohttp.WSMsgType.TEXT :
                 event_json = json.loads(event.data)
