@@ -37,10 +37,11 @@ class User:
             self.avatar_size = None                  
             self.avatar_tag = None
 
-        self.relationship = user_dict["relationship"]
-        self.badges = user_dict["badges"]
+        self.relationship = user_dict.get("relationship" ,None)
+        self.badges = user_dict.get("badges" , None)
         self.flags = user_dict.get("flags" , None)
-        self.online = user_dict["online"]
+        self.online = user_dict.get("online" , None)
+
 
 
 
