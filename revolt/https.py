@@ -13,6 +13,8 @@ class Http:
 
 
     async def request(self , payload , route , method):
+        """ contructs the request and executes it"""
+
         async with aiohttp.ClientSession() as session:
             res = await session.request(method , self.base_url + route , json=payload, headers=self.headers) 
             return await res.json()
@@ -22,7 +24,8 @@ class Http:
 
 
     async def send_message(self,channel_id , content) :
-       
+        """send message functions / sends message to the channel id with content"""
+        
         payload = {
             "content" : content , 
             "nonce" : str(os.urandom(8))
