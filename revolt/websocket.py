@@ -1,7 +1,7 @@
 import aiohttp
 import json
 import asyncio
-
+from .models.ready import Ready
 class Ws :
     """websocket handler"""
 
@@ -43,11 +43,11 @@ class Ws :
             
             event = await self.connection.receive()
             if event.type ==  aiohttp.WSMsgType.TEXT :
-                event_json = json.loads(event.data)
-                if event_json["type"] == "Authenticated":
+                event_dict = json.loads(event.data)
+                if event_dict["type"] == "Authenticated":
                     await self.client.call_event("authenticate" , None)
-                elif event_json["type"] == "Ready" :
-                    await self.client.call_event("ready" , event_json)
+                elif event_dict["type"] == "Ready" :
+                    await self.client.call_event("ready" , Ready(event_dict))
                 else :
                     print(event)
             else :

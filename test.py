@@ -3,7 +3,7 @@ import json
 import asyncio
 from dotenv import load_dotenv 
 import os 
-
+from collections import namedtuple
 
 load_dotenv()
 TOKEN = os.getenv("TOKEN")
@@ -22,6 +22,11 @@ async def authenticate (ctx) :
 
 @client.event
 async def ready(ctx) : 
-    print(ctx)
+    print(dir(ctx)) 
+    client.users = ctx.load_users()
+    print(dir(client.users))
+    print(client.users[0].username)
+    await client.http.send_message("01FD5A94JN4YQZ5BR722Q606YX" , str(len(client.users)) )
+    
 
 client.run(TOKEN)
