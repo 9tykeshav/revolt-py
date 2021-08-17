@@ -1,8 +1,6 @@
 import aiohttp
 import json
-
-
-
+import asyncio
 
 class Ws :
     """websocket handler"""
@@ -28,12 +26,18 @@ class Ws :
         print("sending authenticate :" , self.authentication)
         await self.connection.send_str(self.authentication)
 
+    async def heartbeat(self) :
+        while True :
+            await asyncio.sleep(13) 
+            await self.connection.ping(b'amogus')
+
     async def start(self) :
         """starts a loop and listens to the events"""
 
 
         await self.authenticate()
         while True :
+            asyncio.create_task(self.heartbeat()) 
             event = await self.connection.receive()
             if event.type ==  aiohttp.WSMsgType.TEXT :
                 event_json = json.loads(event.data)
