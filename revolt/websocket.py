@@ -44,7 +44,8 @@ class Ws :
                 else :
                     print(event)
             else :
-                print("we got something we dont know")
+                print(event)
+                
 
             #TODO HANDLE THE STUFF HERE
 
