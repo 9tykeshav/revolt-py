@@ -18,17 +18,17 @@ class Ws :
         self.connection = await self.session.ws_connect("wss://ws.revolt.chat")
 
     async def authenticate(self):
-        authentication = f"""{
-    "type": "Authenticate",
-    "token": f"self.client.token"
-}"""
-        self.connection.send_str(authentication)
+        auth_dict = {'type': 'Authenticate',
+    'token': self.client.token
+    }
+        authentication = json.dumps(auth_dict)
+        print("sending authenticate :" , authentication)
+        await self.connection.send_str(authentication)
 
     async def start(self) :
-        self.authenticate()
+        await self.authenticate()
         while True :
-            event = await self.connection.recieve()
+            event = await self.connection.receive()
             print(event) 
-            
 
 

@@ -7,7 +7,7 @@ class Http:
 
     def __init__(self , token , session = None):
         self.token = token
-        self.session = session if session else aiohttp.ClientSession()
+        #self.session = session if session else aiohttp.ClientSession()
         self.base_url = "https://api.revolt.chat/" 
         self.headers = { "x-bot-token" : self.token ,"content-Type" : "application/json" }
 
@@ -15,7 +15,9 @@ class Http:
     async def request(self , payload , route , method):
         async with aiohttp.ClientSession() as session:
             res = await session.request(method , self.base_url + route , json=payload, headers=self.headers) 
-            return await res.json() 
+            return await res.json()
+            await session.close()
+
 
 
 
