@@ -18,12 +18,26 @@ class Bot:
         self.events[func.__name__] = func
         return func
 
-    async def call_event(self , event_name , ctx) :
+
+    #TODO give good wording for the function
+    async def _schedule_event(self ,event , ctx) :
+        """constructs the event to be called for bot.call_event"""
+
+        try :
+            await event(ctx) 
+
+        except Exception as e :
+            print(str(e) + " at" , event)
+
+
+    def call_event(self , event_name , ctx) :
         """calls the a event registered with @event"""
 
         event = self.events.get(event_name)
         if event :
-            await event(ctx)
+            event_coro = self._schedule_event(event , ctx)
+            asyncio.create_task(event_coro)
+
         else :
         #TODO have to return a error when events are called that  doesnt exits 
             #print("\n") 

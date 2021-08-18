@@ -21,7 +21,8 @@ async def authenticate (ctx) :
 
 
 @client.event
-async def ready(ctx) : 
+async def ready(ctx) :
+    await asyncio.sleep(5) 
     print(dir(ctx)) 
     client.users = ctx.load_users()
     print(dir(client.users))

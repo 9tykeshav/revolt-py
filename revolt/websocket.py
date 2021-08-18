@@ -45,9 +45,9 @@ class Ws :
             if event.type ==  aiohttp.WSMsgType.TEXT :
                 event_dict = json.loads(event.data)
                 if event_dict["type"] == "Authenticated":
-                    await self.client.call_event("authenticate" , None)
+                    self.client.call_event("authenticate" , None)
                 elif event_dict["type"] == "Ready" :
-                    await self.client.call_event("ready" , Ready(event_dict))
+                    self.client.call_event("ready" , Ready(event_dict))
                 else :
                     print(event)
             else :
