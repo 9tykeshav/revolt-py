@@ -2,6 +2,7 @@ import aiohttp
 import json
 import asyncio
 from .models.ready import Ready
+from .models.message import Message
 class Ws :
     """websocket handler"""
 
@@ -29,7 +30,8 @@ class Ws :
     async def heartbeat(self) :
         while True :
             await asyncio.sleep(13) 
-            await self.connection.ping(b'amogus')
+            await self.connection.send_str('{"type" : "ping"}')
+
 
     async def start(self) :
         """starts a loop and listens to the events"""
@@ -48,6 +50,9 @@ class Ws :
                     self.client.call_event("authenticate" , None)
                 elif event_dict["type"] == "Ready" :
                     self.client.call_event("ready" , Ready(event_dict))
+                elif event_dict["type"] == "Message" :
+                    self.client.call_event("message" ,Message(event_dict))
+
                 else :
                     print(event)
             else :

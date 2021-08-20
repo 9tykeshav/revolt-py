@@ -23,11 +23,17 @@ async def authenticate (ctx) :
 @client.event
 async def ready(ctx) :
     await asyncio.sleep(5) 
-    print(dir(ctx)) 
+    print(json.dumps(ctx.event , indent = 2)) 
     client.users = ctx.load_users()
     print(dir(client.users))
     print(client.users[0].username)
     await client.http.send_message("01FD5A94JN4YQZ5BR722Q606YX" , str(len(client.users)) )
-    
+   
+@client.event
+async def message(msg):
+    if msg.content == "!ping" :
+        await client.http.send_message(msg.channel , "pong" )
+
+
 
 client.run(TOKEN)

@@ -67,6 +67,8 @@ class Bot:
 
         self.token = token
         asyncio.get_event_loop().run_until_complete(self.login())
+        #asyncio.run(self.login())
+
         
 
 
