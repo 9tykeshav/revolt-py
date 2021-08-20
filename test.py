@@ -16,7 +16,7 @@ client = Bot()
 
 @client.event
 async def authenticate (ctx) : 
-    print("we have been successfully authencated to thewebsocket")
+    print("we have been successfully auth-ed to thewebsocket")
     print(ctx)
 
 
@@ -28,11 +28,22 @@ async def ready(ctx) :
     print(dir(client.users))
     print(client.users[0].username)
     await client.http.send_message("01FD5A94JN4YQZ5BR722Q606YX" , str(len(client.users)) )
-   
+
+
+@client.command(name="owl" , alias=["test" , "nu"])
+async def amogus(msg):
+    await client.http.send_message(msg.channel ,"sus")
+
+@client.command(name="sleep" , alias=["night", "gn"])
+async def sleeper(msg):
+    await client.http.send_message(msg.channel, "i am ssleeping")
+    await asyncio.sleep(4)
+    await client.http.send_message(msg.channel, "i wok up!!!!")
+
 @client.event
 async def message(msg):
-    if msg.content == "!ping" :
-        await client.http.send_message(msg.channel , "pong" )
+    pass 
+
 
 
 

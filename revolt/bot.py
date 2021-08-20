@@ -2,14 +2,16 @@ import asyncio
 import aiohttp
 from .https import Http 
 from .websocket import Ws 
-
+from .command import Command
 
 class Bot:
     """represents the basic bot class"""
 
     def __init__(self):
         self.ws = Ws(self)
-        self.events = {} # { func_name : func_object} 
+        self.events = {} # { func_name : func_object}
+        self.commands = []
+
 
 
     def event(self , func) :
@@ -17,6 +19,13 @@ class Bot:
 
         self.events[func.__name__] = func
         return func
+    
+    def command(self , **kwargs) :
+        def inner(func) :
+            self.commands.append(Command(func=func ,**kwargs))
+            
+        return inner 
+            
 
 
     #TODO give good wording for the function
